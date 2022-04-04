@@ -1,0 +1,45 @@
+= TP4 -- Tester, et sécuriser par tokens JWT
+
+== Objectifs du TP
+
+* Sécuriser un service REST avec des tokens JWT ;
+* Tester un service REST.
+
+== Description du service REST
+
+Nous repartons du service REST réalisé lors du TP3.
+
+=== Rappel du contexte
+
+Pour aider le suivi de projets, un professeur de web-service décide de mettre en place une application permettant aux étudiants de poser des questions :
+
+- Les professeurs peuvent répondre aux questions ouvertes (non encore répondues).
+- Les étudiants peuvent alors consulter les réponses aux questions qu'ils ont posées.
+
+=== Opérations proposées par l'API
+
+- *Inscrire un compte étudiant* (`email` et `password`).
+- *Poser une question*, pour un _étudiant authentifié_ (`email` et `password`).
+- *Consulter ses questions* et les réponses éventuelles, pour un _étudiant authentifié_ ; il est possible de préciser les questions que l'on souhaite consulter (via un paramètre `filtre` pouvant valoir `sansreponse` ou `avecreponse`).
+- *Réponse à une question*, pour un _enseignant authentifié_ (`email` et `password`).
+- *Consulter toutes les questions posées*, pour un _enseignant authentifié_ ; il est possible de préciser que l'on ne veut que les questions sans réponse (via un paramètre `filtre` pouvant valoir `sansreponse`).
+
+
+== Travail à réaliser
+
+. Modifier la sécurité du service REST, pour *utiliser des tokens JWT*.
+. Créer une classe de *tests pour le contrôleur du service REST*. _On ne s'intéresse pas aux tests des façades du modèle_.
+
+
+=== Ressources
+
+- Pour la création et sécurisation d'un service REST avec Spring Boot et Spring Security :
+* Le cours _(« O RLY? »)_
+* Les vidéos de la chaîne Youtube "REST - Spring Security" de Frédéric Moal : https://www.youtube.com/playlist?list=PLbIvwFkPyMFsvXQxbv6IFxYkt6DcZnHOw
+** en particulier, la vidéo "ch4" porte sur la sécurisation par tokens JWT : https://youtu.be/K-MIoeoDbuw
+
+- Pour la réalisation de tests d'un service REST, avec Spring Test :
+* Internet (« U kidding?! »)
+** Par exemple : https://www.baeldung.com/spring-boot-testing
+* La classe de tests `TpnoteApplicationTests` du _sujet d'entraînement_ : https://pdicost.univ-orleans.fr/git/projects/WSI22/repos/sujet-entrainement/browse
+* La classe de tests `ControleurTest` du TP noté (si vous avez encore les sources avec vous).
