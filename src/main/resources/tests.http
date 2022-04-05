@@ -2,7 +2,7 @@
 POST http://localhost:8080/api/utilisateurs
 Content-Type: application/x-www-form-urlencoded
 
-email=sandra&password=nicouette
+email=sandra@nicouette.fr&password=nidraps
 
 
 ### Listing des questions (par un étudiant -> doit retourner 403)
@@ -25,7 +25,6 @@ Authorization: Basic anna.conda@univ-orleans.fr 42andCounting
 client.test("Request executed successfully", function() {
   client.assert(response.status === 200, "Un enseignant doit pouvoir accéder à cette ressource");
   });
-
 %}
 
 
