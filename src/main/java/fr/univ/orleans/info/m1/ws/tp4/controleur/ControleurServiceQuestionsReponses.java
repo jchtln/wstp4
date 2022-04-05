@@ -11,6 +11,7 @@ import fr.univ.orleans.info.m1.ws.tp4.modele.exceptions.UtilisateurInexistantExc
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,9 +26,11 @@ public class ControleurServiceQuestionsReponses {
 
     @Autowired
     private FacadeUtilisateurs facadeUtilisateurs;
-
     @Autowired
     private FacadeApplication facadeApplication;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/utilisateurs")
     public ResponseEntity<Utilisateur> inscrire(@RequestParam String email,
@@ -35,7 +38,7 @@ public class ControleurServiceQuestionsReponses {
                                                 UriComponentsBuilder base) {
         Utilisateur utilisateur;
         try {
-            utilisateur = facadeUtilisateurs.inscrireUtilisateur(email, password);
+            utilisateur = facadeUtilisateurs.inscrireUtilisateur(email, passwordEncoder.encode(password));
         } catch (LoginDejaUtiliseException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
