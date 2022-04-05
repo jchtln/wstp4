@@ -2,7 +2,7 @@
 POST http://localhost:8080/api/utilisateurs
 Content-Type: application/x-www-form-urlencoded
 
-login=sandra&password=nicouette
+email=sandra&password=nicouette
 
 
 ### Listing des questions (par un étudiant -> doit retourner 403)
