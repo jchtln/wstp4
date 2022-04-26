@@ -3,6 +3,8 @@ package fr.univ.orleans.info.m1.ws.tp4.security.config;
 import fr.univ.orleans.info.m1.ws.tp4.modele.FacadeUtilisateurs;
 import fr.univ.orleans.info.m1.ws.tp4.modele.Role;
 import fr.univ.orleans.info.m1.ws.tp4.security.services.CustomUserDetailsService;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +16,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.crypto.SecretKey;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private JwtTokens jwtTokens;
 
     @Autowired
     FacadeUtilisateurs facadeUtilisateurs;
@@ -29,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokens))
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/utilisateurs").permitAll()
                 .antMatchers("/api/questions/**").hasRole(Role.ENSEIGNANT.name())
@@ -47,6 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
+    }
+
+    @Bean
+    public SecretKey getSecretKey() {
+        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
 }
