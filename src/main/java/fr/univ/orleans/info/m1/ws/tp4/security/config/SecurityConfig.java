@@ -29,13 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/utilisateurs").permitAll()
                 .antMatchers("/api/questions/**").hasRole(Role.ENSEIGNANT.name())
                 .antMatchers("/api/utilisateurs/**").hasRole(Role.ETUDIANT.name())
                 .anyRequest().denyAll()
-                .and()
-                .httpBasic()
+
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
