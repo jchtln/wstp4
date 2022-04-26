@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokens))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokens))
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/utilisateurs").permitAll()
                 .antMatchers("/api/questions/**").hasRole(Role.ENSEIGNANT.name())
